@@ -268,4 +268,140 @@ useful dividing line.
   \end{enumerate}
 \end{fact}
 
+\subsection{Quantifier Elimination and Ax-Grothendieck}
+
+Model theory, as a general rule, studies theories that are not too
+complicated. Its catalog of tools and techniques make use of
+situations where a theory is lacking some kind of complexity. An
+example of such a lack of complexity if a definition is at some
+particular level of the quantifier depth hierarchy. In this section,
+we exploit such a situation to prove the classic Ax-Grothendieck
+Theorem.
+
+\begin{thm}[Ax-Grothendieck]\label{thm:ax-groth}
+  Let $p : \mathbb{C}^n \to \mathbb{C}^n$ be an injective polynomial
+  map. Then $p$ is surjective.
+\end{thm}
+
+Note that Theorem~\ref{thm:ax-groth} is not about complex analysis: it
+is in particular false if we relax ``polynomial'' to ``holomorphic.''
+The fact that polynomial maps are definable as formulas is essential,
+as it allows us to use facts from model theory. We show
+Theorem~\ref{thm:ax-groth} as a corollary to the more model-theoretic
+Theorem~\ref{thm:ax-groth-modeltheory}.
+
+\begin{thm}\label{thm:ax-groth-modeltheory}
+  Let $\rho$ be a $\ringsig$-sentence that is $\Pi_2$ modulo
+  $\fieldthy$ and true in every finite field. Then $\rho$ is true in
+  every algebraically closed field.
+\end{thm}
+
+We devote the rest of this section to establishing these theorems. The
+main steps are:
+\begin{enumerate}
+\item show that any sentence true in an algebraically closed field is
+  true in some $\overline{\mathbb{F}_p}$, and
+\item show that any $\Pi_2$ sentence that fails in
+  $\overline{\mathbb{F}_p}$ fails in a finite subfield.
+\end{enumerate}
+
+Notre Dame's basic logic course will establish a key fact: that $\acf$
+eliminates quantifiers. This is a powerful result that is nevertheless
+follows easily from combining the basic tools of both model theory and
+field theory. In these notes, however, we will treat the result as a
+black box.
+
+\begin{defn}
+  A theory $T$ \defterm{eliminates quantifiers} (or \defterm{has
+    quantifier elimination}) if every formula is $\Delta_0$ modulo
+  $T$. That is, for every formula $\phi(\tuple{x})$, there is a
+  quantifier free formula $\psi(\tuple{x})$ such that $\phi(\tuple{x})
+  \sim_T \psi(\tuple{x})$.
+\end{defn}
+
+\begin{fact}\label{fact:acf-qe}
+  $\acf$ eliminates quantifiers.
+\end{fact}
+
+\begin{prop}\label{prop:anything-goestofinitecharacteristic}
+  Let $\rho$ be a $\ringsig$-sentence. Then, if $\rho$ holds in some
+  algebraically closed field, it holds in some
+  $\overline{\mathbb{F}_p}$.
+\end{prop}
+\begin{proof}
+  Since a sentence is just a formula with no free variables,
+  Fact~\ref{fact:acf-qe} yields a quantifier free sentence $\rho'$
+  that is equivalent modulo $\acf$ to $\rho$. Such quantifier free
+  sentences are quite inexpressive, however: they are (up to
+  equivalence modulo $\fieldthy$, even) just boolean combinations of
+  equalities of the form $n = 0$. Consequently, whether $\rho$ holds
+  in an algebrically closed field depends only on the field's
+  characteristic. Furthermore, since a single sentence can only
+  contain finitely many equalities of the form $n = 0$, $\rho$ is true
+  in characteristic 0 if and only if it is true in some large
+  characteristic $p$ (by taking $p$ greater than every $n$ mentioned).
+
+  We therefore have that, if $\rho$ holds in an algebraically closed
+  field, it holds in all algebraically closed fields of some finite
+  characteristic $p$, and in particular holds in
+  $\overline{\mathbb{F}_p}$.
+\end{proof}
+
+\begin{prop}\label{prop:sig2-goestofinitefield}
+  Let $\rho$ be a $\ringsig$ sentence that is $\Sigma_2$ modulo
+  $\fieldthy$, and assume $\overline{\mathbb{F}_p} \models \rho$. Then
+  there is a finite subfield $k$ of $\overline{\mathbb{F}_p}$ such
+  that $k \models \rho$.
+\end{prop}
+\begin{proof}
+  Without loss of generality, assume $\rho$ has the form $\exists
+  \tuple{x} : \forall \tuple{y} : \phi(\tuple{x},\tuple{y})$, where
+  $\phi(\tuple{x},\tuple{y})$ is quantifier free. Then we can take
+  $\tuple{a} \in \overline{\mathbb{F}_p}$ such that
+  $\overline{\mathbb{F}_p} \models \forall \tuple{y}:
+  \phi(\tuple{a},\tuple{y})$. Let $k = \mathbb{F}_p(\tuple{a})$, a
+  finite subfield of $\overline{\mathbb{F}_p}$. We wish to show that
+  $k \models \forall y: \phi(\tuple{a},\tuple{y})$, so let $\tuple{b}
+  \in k$ be arbitrary. We know that $\overline{\mathbb{F}_p} \models
+  \phi(\tuple{a},\tuple{b})$. Since $\phi(\tuple{x},\tuple{y})$ is
+  quantifier free, its truth does not depend on the ambient field (it
+  is just a boolean combination of polynomial equalities), so we can
+  conclude $k \models \phi(\tuple{a},\tuple{b})$ as desired.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:ax-groth-modeltheory}]
+  Let $\rho$ be $\Pi_2$ modulo $\fieldthy$. We will show the theorem
+  by contrapositive, i.e., if $\rho$ fails in some algebraically
+  closed field, it fails in some finite field.
+
+  Note that, since $\rho$ is $\Pi_2$ modulo $\fieldthy$, its negation,
+  $\neg \rho$, is $\Sigma_2$ modulo $\fieldthy$. Since $\neg \rho$
+  holds exactly where $\rho$ fails, the result follows from
+  Propositions \ref{prop:anything-goestofinitecharacteristic} and
+  \ref{prop:sig2-goestofinitefield}.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:ax-groth}]
+  We use Theorem~\ref{thm:ax-groth-modeltheory}, together with the
+  realizations that we can phrase the claim as a collection of
+  absolutely $\Pi_2$ sentences and that any injective map from a
+  finite set to itself is surjective.
+
+  Given a degree $d$ and dimension $n$, we can form a sentence
+  $\rho_{n,d}$ claiming that every injective, degree $d$ polynomial
+  map from $n$ values to $n$ values is surjective. Expanding somewhat,
+  $\rho_{n,d}$ says that, for every degree $d$ polynomial map from $n$
+  values to $n$ values, either
+  \begin{enumerate}
+  \item for all $\tuple{y}$, there is $\tuple{x}$ such that $p(\tuple{x}) = \tuple{y}$, or
+  \item there are $\tuple{x}$ and $\tuple{y}$ such that $\tuple{x}
+    \neq \tuple{y}$ and $p(\tuple{x}) = p(\tuple{y})$.
+  \end{enumerate}
+  Since we can quantify over polynomial maps (of fixed degree) by
+  quantifying over the parameters, we can clearly form such a
+  sentence. Furthermore, one can inspect the preceding description of
+  $\rho_{n,d}$ to see that $\rho_{n,d}$ is absolutely $\Pi_2$. By our
+  earlier remarks, we have thus shown the theorem.
+\end{proof}
+
 \end{document}
