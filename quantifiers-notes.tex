@@ -10,6 +10,17 @@
 \theoremstyle{definition}
 \newtheorem{defn}[thm]{Definition}
 \newtheorem{fact}[thm]{Fact}
+\newtheorem{example}[thm]{Example}
+
+\newcommand{\defterm}{\emph}
+\newcommand{\ringsig}{\sigma_{\operatorname{rng}}}
+\newcommand{\fieldthy}{T_{\operatorname{fld}}}
+\newcommand{\acf}{T_{\operatorname{acf}}}
+\newcommand{\tuple}{\bar}
+\DeclareMathOperator{\Cn}{Cn}
+
+\newcommand{\Rho}{\mathrm{P}}
+
 
 \title{A Brief Taste of Quantifiers}
 \author{Mike Haskel}
@@ -32,5 +43,150 @@
   discuss its relationship with computability in general, and prove
   that it does not collapse.
 \end{abstract}
+
+\section{Introduction}
+
+\section{Model Theory}
+
+\subsection{Basic Framework and Notation}
+
+\begin{defn}
+  A \defterm{signature} $\sigma$ is a collection of constant symbols,
+  function symbols, and relation symbols, together with an
+  \defterm{arity} for each function and relation symbol (that is, a
+  natural number specifying how many arguments the symbol takes).
+\end{defn}
+
+\begin{defn}
+  Given a signature $\sigma$, a \defterm{$\sigma$-structure} is a set
+  and an interpretation for every symbol in $\sigma$. That is, a
+  $\sigma$-structure $\mathcal{M}$ is a set $M$ together with
+  \begin{itemize}
+  \item an element $c^\mathcal{M} \in M$ for every constant symbol $c$,
+  \item a function $f^\mathcal{M} : M^n \to M$ for every $n$-ary function symbol $f$, and
+  \item a relation $R^\mathcal{M} \subseteq M^n$ for every $n$-ary relation symbol $R$.
+  \end{itemize}
+\end{defn}
+
+As a notational convention, if $\mathcal{M}$ is a structure, $M$ will
+always denote its underlying set.
+
+\begin{example}
+  The \defterm{signature of rings}, $\ringsig$, consists of constant
+  symbols $0, 1$, binary operations $+, \cdot$, and a unary operation
+  $-$. Every ring is naturally a $\ringsig$-structure.
+\end{example}
+
+Note that being a $\ringsig$-structure is actually much weaker than
+being a ring: a $\ringsig$-structure need not satisfy any of the ring
+axioms. To actually study rings with this framework, for example, we
+need a little more.
+
+\begin{defn}
+  Given a signature $\sigma$ and a tuple of variable symbols
+  $\tuple{x}$, a \defterm{$\sigma$-formula in $\tuple{x}$},
+  $\phi(\tuple{x})$, is a sequence of symbols representing a
+  first-order claim, with free variables from among $\tuple{x}$ and
+  primitive symbols from $\sigma$.
+
+  Terms in a formula are built as constant symbols, variable symbols,
+  and application of function symbols to other terms (respecting
+  arity, of course). The formulas themselves are built as $t_1 = t_2$
+  (where $t_1, t_2$ are terms), application of relation symbols to
+  terms (respecting arity), finite conjunctions, finite disjunctions,
+  negations, implications, and universal and existential quantifiers.
+
+  A \defterm{sentence} $\rho$ is a formula with no free variables.
+\end{defn}
+
+\begin{defn}
+  Let $\sigma$ be a signature, $\mathcal{M}$ a $\sigma$-structure,
+  $\phi(\tuple{x})$ a $\sigma$-formula, and $\tuple{a} \in M^n$ (where
+  $\tuple{a}, \tuple{x}$ both have length $n$). Then write
+  $\mathcal{M} \models \phi(\tuple{a})$ if the formula
+  $\phi(\tuple{x})$ holds of $\tuple{a}$ in the obvious way, with
+  constant, function, and relation symbols interpreted via
+  $\mathcal{M}$, and quantifiers ranging over $M$. Write
+  $\phi^\mathcal{M} = \{ \tuple{a} \in M^n \mid \mathcal{M} \models
+  \phi(\tuple{a})\}$, the set defined in $\mathcal{M}$ by
+  $\phi(\tuple{x})$.
+
+  The double turnstyle symbol, $\models$, is pronounced ``models.''
+\end{defn}
+
+\begin{example}
+  Let $\phi(x)$ be $\exists y: x \cdot y = 1$, a
+  $\ringsig$-formula. If $\mathcal{M}$ is a ring and $a \in M$, the
+  $\mathcal{M} \models \phi(a)$ if and only if $a$ has a
+  multiplicative inverse.
+\end{example}
+
+\begin{example}
+  Let $\rho$ be $\forall x: x = 0 \vee (\exists y: x \cdot y = 1)$, a
+  $\ringsig$-sentence. If $\mathcal{M}$ is a ring, then $\mathcal{M}
+  \models \rho$ if and only if $\mathcal{M}$ is furthermore a field.
+\end{example}
+
+\begin{defn}
+  Let $\sigma$ be a signature and $\Rho$ set of $\sigma$-sentences.
+  \begin{itemize}
+  \item If $\mathcal{M}$ is a $\sigma$-structure, write $\mathcal{M}
+    \models \Rho$ if $\mathcal{M} \models \rho$ for every $\rho \in
+    \Rho$.
+  \item If $\mathcal{\rho}$ is a $\sigma$-sentence (not necessarily in
+    $\Rho$), write $\Rho \models \rho$ if, for all $\sigma$-structures
+    $\mathcal{M}$ with $\mathcal{M} \models \Rho$, $\mathcal{M}
+    \models \rho$.
+  \end{itemize}
+\end{defn}
+
+\begin{defn}
+  Let $\sigma$ be a signature and $\Rho$ a set of $\sigma$-sentences.
+  \begin{itemize}
+  \item Define $\Cn(\Rho)$, the \defterm{consequences} of $\Rho$, to
+    be $$\{\rho \mid \Rho \models \rho\}\text{.}$$
+  \item Say that $\Rho$ is \defterm{consistent} if it has a model,
+    i.e., there is $\mathcal{M}$ such that $\mathcal{M} \models \Rho$.
+  \item Say that $\Rho$ is a $\sigma$-\defterm{theory} if it is closed
+    under consequence (i.e.\ $\Cn(\Rho) = \Rho$) and consistent.
+  \end{itemize}
+\end{defn}
+
+By convention, theories are usually written $T$ instead of $\Rho$.
+
+\begin{example}\label{example:fieldthy}
+  The \defterm{theory of fields}, $\fieldthy$, is the set of consequences of
+  the following $\ringsig$-sentences:
+  \begin{itemize}
+  \item $\forall x,y,z: x + (y + z) = (x + y) + z$
+  \item $\forall x,y: x + y = y + x$
+  \item $\forall x: x + 0 = x$
+  \item $\forall x: x + (-x) = 0$
+  \item $\forall x,y,z: x \cdot (y \cdot z) = (x \cdot y) \cdot z$
+  \item $\forall x,y: x \cdot y = y \cdot x$
+  \item $\forall x: x \cdot 1 = x$
+  \item $\forall x: x = 0 \vee (\exists y: x \cdot y = 1)$.
+  \end{itemize}
+  
+  It is immediate that $\fieldthy$ is a $\ringsig$-theory, and that a
+  $\ringsig$-structure $\mathcal{M}$ is a field if and only if
+  $\mathcal{M} \models \fieldthy$.
+\end{example}
+
+\begin{example}
+  The \defterm{theory of algebraically closed fields}, $\acf$, is the
+  set of consequences of the sentences listed in
+  Example~\ref{example:fieldthy}, together with an assertion, for each
+  $d > 1$, that every polynomial of degree $d$ has a root. For
+  example, for $d = 2$, such a sentence might be $$\forall \tuple{a}:
+  \exists x: x^2 + a_1x + a_0 = 0 \text{.}$$ Note that it is often
+  convenient, as it is here, to use extensive shorthand when writing
+  sentences and formulas when no ambiguity problems arise (e.g., $x^2$
+  in place of $x \cdot x$, $t_1 + t_2 + t_3$ in place of $t_1 + (t_2 +
+  t_3)$).
+
+  As in Example~\ref{example:fieldthy}, a $\ringsig$-structure is an
+  algebraically closed field if and only if it models $\acf$.
+\end{example}
 
 \end{document}
