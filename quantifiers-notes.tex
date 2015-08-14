@@ -20,6 +20,7 @@
 \DeclareMathOperator{\Cn}{Cn}
 
 \newcommand{\Rho}{\mathrm{P}}
+\renewcommand{\phi}{\varphi}
 
 
 \title{A Brief Taste of Quantifiers}
@@ -188,5 +189,83 @@ By convention, theories are usually written $T$ instead of $\Rho$.
   As in Example~\ref{example:fieldthy}, a $\ringsig$-structure is an
   algebraically closed field if and only if it models $\acf$.
 \end{example}
+
+\subsection{Formula Equivalence and Quantifier Depth}
+
+Two formulas may express the same idea, even though they are written
+differently. This equivalence may be absolute, or it may depend on the
+underlying theory (e.g., it may rely on a particular symbol being
+associative). It is particularly useful to know that every formula is
+equivalent (in the absolute sense) to one where all the quantifiers
+are in the front, since we can classify these formulas by the patterns
+of quantifiers they contain.
+
+\begin{defn}
+  Let $\sigma$ be a signature, and let $\phi(\tuple{x})$ and
+  $\psi(\tuple{x})$ be $\sigma$-formulas in $\tuple{x}$, where
+  $\tuple{x}$ has length $n$. Say $\phi(\tuple{x})$ is
+  \defterm{absolutely equivalent} to $\psi(\tuple{x})$, and write
+  $\phi(\tuple{x}) \sim \psi(\tuple{x})$, if for all
+  $\sigma$-structures $\mathcal{M}$, $\phi^\mathcal{M} =
+  \psi^\mathcal{M}$.
+
+  If $T$ is a $\sigma$-theory, say $\phi(\tuple{x})$ is
+  \defterm{equivalent modulo $T$} to $\psi(\tuple{x})$, and write
+  $\phi(\tuple{x}) \sim_T \psi(\tuple{x})$, if for all
+  $\sigma$-structures $\mathcal{M}$ with $\mathcal{M} \models T$,
+  $\phi^\mathcal{M} = \psi^\mathcal{M}$.
+\end{defn}
+
+\begin{defn}\label{defn:quantifier-depth}
+  Fix a $\sigma$-theory $T$. Say that a $\sigma$-formula is
+  \defterm{quantifier free} if it does not contain any
+  quantifiers. Say that a formula is $\Sigma_0$ and $\Pi_0$ modulo $T$
+  if it is equivalent modulo $T$ to a quantifier free formula.
+
+  Say that a formula $\phi(\tuple{x})$ is $\Sigma_{n+1}$ (modulo $T$)
+  if it is equivalent modulo $T$ to $\exists \tuple{y} :
+  \psi(\tuple{x}, \tuple{y})$ for some $\Pi_n$ (modulo $T$) formula
+  $\psi(\tuple{x}, \tuple{y})$. Similarly, say that $\phi(\tuple{x})$
+  is $\Pi_{n+1}$ if it is equivalent to $\forall \tuple{y} :
+  \psi(\tuple{x}, \tuple{y})$ for some $\Sigma_n$ formula $T$.
+
+  Say that a formula is $\Delta_n$ if it is both $\Sigma_n$ and
+  $\Pi_n$.
+
+  In the previous definitions, if we require absolute equivalence
+  rather than equivalence modulo $T$, we say that a formula is
+  \defterm{absolutely} $\Sigma_n$, $\Pi_n$, or $\Delta_n$.
+\end{defn}
+
+The ideas in Definition~\ref{defn:quantifier-depth} allow us to
+describe the alternations of quantifiers needed to express a
+concept. Informally, throughout mathematics, these quantifier
+alternations measure the complexity of an idea. For example, one
+perspective on why calculus is conceptually challenging for students
+is that limits are a $\Pi_3$ definition (for all $\epsilon$, there is
+a $\delta$ such that for all $x$ \ldots), and calculus is typically
+one's first exposure to definitions with three quantifier
+alternations. In both model theory and computability, the ability or
+inability to express a definition at some level of this hierarchy is a
+useful dividing line.
+
+\begin{fact}
+  The following are some basic, useful facts about quantifier depth.
+  \begin{enumerate}
+  \item Every formula is absolutely $\Sigma_n$ or $\Pi_n$ for some
+    $n$, since it is possible to rewrite formulas to bring all
+    quantifiers to the front.
+  \item If a formula is either $\Pi_n$ or $\Sigma_n$, it is
+    $\Delta_{n+1}$, since it is always possible to add quantifiers
+    over extra, unused variables.
+  \item A formula is $\Sigma_n$ if and only if its negation is
+    $\Pi_n$. A formula is $\Delta_n$ if and only if its negation is
+    $\Delta_n$.
+  \item Let $\phi(\tuple{x}, \tuple{y})$ be such that, in every
+    $\mathcal{M} \models T$, $\phi^\mathcal{M}$ is the graph of a
+    (total) function. Then $\phi(\tuple{x},\tuple{y})$ is $\Sigma_n$
+    (modulo $T$) if and only if it is $\Delta_n$ (modulo $T$).
+  \end{enumerate}
+\end{fact}
 
 \end{document}
