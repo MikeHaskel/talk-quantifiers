@@ -456,7 +456,7 @@ functions are primitive recursive, including addition,
 muplitplication, exponentiation, primality testing, finding the $n$th
 prime, and many more. It is clear, also, from inspecting the
 definition, that any primitive recursive function is computable by a
-mechanical process (i.e., an algorithm) that eventually stops and
+mechanical process (i.e., an algorithm) that eventually halts and
 gives the right answer.
 
 \begin{defn}
@@ -484,7 +484,10 @@ if they define the same set in $\TA$, since
 
 For the rest of this section, we only consider sentences and formulas
 in $\arithsig$, and in any discussion of formula equivalence or being
-$\Sigma_n$, $\Pi_n$, or $\Delta_n$ we mean modulo $\tathy$.
+$\Sigma_n$, $\Pi_n$, or $\Delta_n$ we mean modulo
+$\tathy$. Furthermore, we say that a subset of $\mathbb{N}^n$ is
+$\Sigma_n$ if it is defined by a $\Sigma_n$ formula, etc., and that a
+function is $\Sigma_n$, etc., if its graph is.
 
 There is one final basic fact which simplifies reasoning in some
 cases.
@@ -512,5 +515,79 @@ the primitive recursive sets themselves: they can decode multiple
 paramters from a single value (the first simplification), and the
 boolean combination operations in a quantifier free formula are
 themselves primitive recursive (the second simplification).
+
+\subsection{The Arithmetical Hierarchy and Computability}
+
+The classification of sets (and functions) in $\TA$ into $\Sigma_n$,
+$\Pi_n$, and $\Delta_n$ forms the \defterm{arithmetical hierarchy},
+and any set (or function) with such a classification (i.e., definable
+by some $\arithsig$-formula) is called \defterm{arithmetical}. The
+zeroth level, $\Sigma_0 = \Pi_0 = \Delta_0$, comprises the primitive
+recursive sets. The classifications of the first level also have
+special status in terms of computability.
+
+\begin{defn}
+  A set is \defterm{computably enumerable}, or \defterm{c.e.}, if it
+  is $\Sigma_1$. A set is \defterm{co-computably enumerable}, or
+  \defterm{co-c.e.}, if it is $\Pi_1$ (i.e., its complement is
+  c.e.). A set is \defterm{computable} if it is $\Delta_1$.
+\end{defn}
+
+To justify this special status, consider what it means to be a
+$\Sigma_1$ set. A $\Sigma_1$ set is defined by some formula of the
+form $$\phi(\tuple{x}) = \exists y : R(\tuple{x},y)\text{,}$$ with $R$
+primitive recursive. To check whether $\phi(\tuple{x})$ holds of
+$\tuple{a}$, we can simply start trying possible values for $y$. That
+is, we first check whether $R(\tuple{a},0)$ holds, then check
+$R(\tuple{a},1)$ holds, etc. If and only if $\phi(\tuple{a})$ holds,
+this process will eventually halt and provide confirmation of that
+fact. For any c.e.\ set, then, there is a mechanical process for
+verifying that something is a member (verifying \emph{non}-membership
+may be impossible, however). On the other hand, for any co-c.e.\ set,
+there is a process for verifying non-membership, but not necessarily
+for verifying membership. For a computable set, we can determine
+whether any tuple is or is not a member by running the processes to
+verify membership and non-membership in parallel. Eventually, one will
+halt and tell us whether our candidate is a member.
+
+We have established that c.e.\ sets are special in that there exists a
+mechanical process for verifying membership. Such processes
+furthermore \emph{characterize} the c.e.\ sets (and consequently, the
+preceding descriptions characterize the co-c.e.\ and computable
+sets). This fact follows from the expressivity of the primitive
+recursive sets and functions: given any description of a mechanical
+process to verify membership in a set, following that process consists
+of taking a finite sequence of steps. For any instance of following
+the algorithm, it is possible to encode the entire sequence of steps
+we took, along with the information we had at each step, into a single
+number. We can furthermore encode this information so that a function
+to verify that the algorithm was performed correctly is primitive
+recursive. If membership in a set $X$ is verifiable by a mechanical
+process, we can therefore make a formula defining $X$ along the lines
+of: ``there is a number $y$ encoding steps to correctly show that
+$\tuple{x} \in X$, per the given algorithm.''
+
+\begin{fact}[Church-Turing Thesis]\label{fact:ct-thesis}
+  A set is c.e. if and only if there is a mechanical process to verify
+  membership in the set. A set is co-c.e. if and only if there is a
+  mechanical process to verify non-membership in it. A set is
+  computable if and only if there is a mechanical process to decide
+  membership in it.
+\end{fact}
+
+Fact~\ref{fact:ct-thesis} is intentionally imprecise. There are many
+different approaches to formalizing the intuition for what constitutes
+a mechanical process, and Fact~\ref{fact:ct-thesis} expresses that
+every different way mathematicians have tried to do so results in
+something equivalent to the definitions given here for c.e., co-c.e.,
+and computable sets.
+
+More generally, Post's theorem, which we do not present here in
+detail, says that a set is $\Sigma_{n+1}$ if and only if there is a
+mechanical process to verify membership, given that we allow such a
+process access to an ``oracle'' that can correctly decide membership
+in any $\Sigma_n$ set (or equivalently, in any $\Pi_n$ set). The
+entire arithemetical hierarchy is thus deeply connected to
+computability.
 
 \end{document}
