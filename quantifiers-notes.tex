@@ -14,11 +14,14 @@
 
 \newcommand{\defterm}{\emph}
 \newcommand{\ringsig}{\sigma_{\operatorname{rng}}}
+\newcommand{\arithsig}{\sigma_{\operatorname{arith}}}
 \newcommand{\fieldthy}{T_{\operatorname{fld}}}
 \newcommand{\acf}{T_{\operatorname{acf}}}
 \newcommand{\tuple}{\bar}
 \DeclareMathOperator{\Cn}{Cn}
-
+\DeclareMathOperator{\PR}{PR}
+\DeclareMathOperator{\TA}{TA}
+\newcommand{\tathy}{T_{\TA}}
 \newcommand{\Rho}{\mathrm{P}}
 \renewcommand{\phi}{\varphi}
 
@@ -403,5 +406,111 @@ black box.
   $\rho_{n,d}$ to see that $\rho_{n,d}$ is absolutely $\Pi_2$. By our
   earlier remarks, we have thus shown the theorem.
 \end{proof}
+
+\section{Computability}
+
+If model theory studies theories theories and structures lacking
+complexity, computability studies one structure in particular that has
+a lot of complexicy. This structure, \defterm{true arithmetic}, and
+its theory provide the right context for studying the extent to which
+certain sets and functions are computable by abstract mechanical
+processes. Quantifier depth is again important as the basis for the
+\defterm{arithmetical hierarchy}.
+
+Defining the true arithmetic structure, and even its signature, is
+more difficult than in the other examples discussed here. We first
+need to understand the primitive recursive functions.
+
+\begin{defn}
+  For any $n \in \mathbb{N}$, $\PR_n$ is a particular family of
+  functions $\mathbb{N}^n \to \mathbb{N}$. A function in any one of
+  these families is called \defterm{primitive recursive}. These
+  families are by definition the smallest needed so that:
+  \begin{itemize}
+  \item for all $n$ and $i \leq n$, $\left(\tuple{x} \mapsto x_i\right) \in \PR_n$;
+  \item $\left(() \mapsto 0\right) \in \PR_0$ (this is a ``0-ary''
+    function that takes an empty tuple as input and returns 0);
+  \item $\left(x \mapsto x + 1\right) \in \PR_1$;
+  \item for all $n$ and $m$, if $g \in \PR_n$, $f_1,\ldots,f_n \in
+    \PR_m$, and $h : \mathbb{N}^m \to \mathbb{N}$ is defined
+    by $$h(\tuple{x}) =
+    g(f_1(\tuple{x}),\ldots,f_n(\tuple{x}))\text{,}$$ then $h \in
+    \PR_m$; and
+  \item for all $n$, if $z \in \PR_n$, $s \in \PR_{n+2}$, and $f :
+    \mathbb{N}^{n+1} \to \mathbb{N}$ is defined by
+    \begin{align*}
+      f(0,\tuple{y}) &= z(\tuple{y}) \\
+      f(x+1,\tuple{y}) &= s(x,f(x,\tuple{y}),\tuple{y}) \text{,}
+    \end{align*}
+    then $f \in \PR_{n+1}$.
+  \end{itemize}
+
+  A \defterm{primitive recursive set} is a subset of $\mathbb{N}^n$
+  whose characteristic function is in $\PR_n$.
+\end{defn}
+
+In essence, the primitive recursive functions are those those built by
+combining basic operations and by repeated iteration, where the number
+of iterations is known ahead of time. All the basic number theory
+functions are primitive recursive, including addition,
+muplitplication, exponentiation, primality testing, finding the $n$th
+prime, and many more. It is clear, also, from inspecting the
+definition, that any primitive recursive function is computable by a
+mechanical process (i.e., an algorithm) that eventually stops and
+gives the right answer.
+
+\begin{defn}
+  The \defterm{signature of arithmetic}, $\arithsig$, has every
+  natural number as a constant symbol, every primitive recursive
+  function as a function symbol (of the appropriate arity), and every
+  primitive recursive set as a relation symbol (of the appropriate
+  arity). \defterm{True arithemetic}, $\TA$, is the
+  $\arithsig$-structure whose underlying set is $\mathbb{N}$, with all
+  symbols interpreted in the natural way. The \defterm{theory of true
+    arithmetic}, $\tathy$, is the set of all $\arithsig$-sentences
+  true in $\TA$.
+\end{defn}
+
+We will often use equivalence of formulas modulo $\tathy$. Note,
+however, that two formulas are equivalent modulo $\tathy$ if and only
+if they define the same set in $\TA$, since
+\begin{align*}
+  \phi(\tuple{x}) \sim_{\tathy} \psi(\tuple{x})
+  &\iff \phi^\mathcal{M} = \psi^\mathcal{M} \text{ in all } \mathcal{M} \models \tathy \\
+  &\iff \tathy \models \forall \tuple{x}: \phi(\tuple{x}) \leftrightarrow \psi(\tuple{x}) \\
+  &\iff \TA \models \forall \tuple{x}: \phi(\tuple{x}) \leftrightarrow \psi(\tuple{x}) \\
+  &\iff \phi^{\TA} = \psi^{\TA} \text{.}
+\end{align*}
+
+For the rest of this section, we only consider sentences and formulas
+in $\arithsig$, and in any discussion of formula equivalence or being
+$\Sigma_n$, $\Pi_n$, or $\Delta_n$ we mean modulo $\tathy$.
+
+There is one final basic fact which simplifies reasoning in some
+cases.
+
+\begin{fact}\label{fact:arith-simpler-normalform}
+  Every formula $\phi(\tuple{x})$ is equivalent either to one of the
+  form
+  $$\exists y_1 \forall y_2 \exists y_3 \ldots R(\tuple{x},\tuple{y})$$
+  or to one of the form
+  $$\forall y_1 \exists y_2 \forall y_3 \ldots R(\tuple{x},\tuple{y})\text{,}$$
+  where in either case $R$ is a relation symbol (i.e., a primitive
+  recursive set). Furthermore, considering only formulas of this form
+  does not affect the $\Sigma_n$, $\Pi_n$, and $\Delta_n$ hierarchy.
+\end{fact}
+
+Fact~\ref{fact:arith-simpler-normalform} provides two simplifications:
+\begin{enumerate}
+\item we need only consider quantifiers over a single variable, rather
+  than tuples of variables, at any level of the hierarchy; and
+\item rather than consider arbitrary quantifier free formulas as a
+  base case, we need only consider a single primitive recursive set.
+\end{enumerate}
+These simplifications are justified essentially by the expressivity of
+the primitive recursive sets themselves: they can decode multiple
+paramters from a single value (the first simplification), and the
+boolean combination operations in a quantifier free formula are
+themselves primitive recursive (the second simplification).
 
 \end{document}
