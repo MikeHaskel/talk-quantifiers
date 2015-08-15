@@ -24,6 +24,8 @@
 \newcommand{\tathy}{T_{\TA}}
 \newcommand{\Rho}{\mathrm{P}}
 \renewcommand{\phi}{\varphi}
+\newcommand{\lgnum}{\ulcorner}
+\newcommand{\rgnum}{\urcorner}
 
 
 \title{A Brief Taste of Quantifiers}
@@ -252,7 +254,7 @@ alternations. In both model theory and computability, the ability or
 inability to express a definition at some level of this hierarchy is a
 useful dividing line.
 
-\begin{fact}
+\begin{fact}\label{fact:qfhier-basic}
   The following are some basic, useful facts about quantifier depth.
   \begin{enumerate}
   \item Every formula is absolutely $\Sigma_n$ or $\Pi_n$ for some
@@ -421,7 +423,7 @@ Defining the true arithmetic structure, and even its signature, is
 more difficult than in the other examples discussed here. We first
 need to understand the primitive recursive functions.
 
-\begin{defn}
+\begin{defn}\label{defn:primrec}
   For any $n \in \mathbb{N}$, $\PR_n$ is a particular family of
   functions $\mathbb{N}^n \to \mathbb{N}$. A function in any one of
   these families is called \defterm{primitive recursive}. These
@@ -589,5 +591,129 @@ process access to an ``oracle'' that can correctly decide membership
 in any $\Sigma_n$ set (or equivalently, in any $\Pi_n$ set). The
 entire arithemetical hierarchy is thus deeply connected to
 computability.
+
+\subsection{Universal Sets and Non-Collapse}
+
+In algebraically closed fields, quantifier elimation means that all
+definable sets are in fact $\Delta_0$. In contrast, in the
+arithmetical hierarchy, we see new sets at every level (it does not
+``collapse''). In particular, for every $n \geq 0$, there is a set
+that is $\Sigma_n$ but not $\Pi_n$ (and therefore not $\Sigma_m$,
+$\Pi_m$, or $\Delta_m$ for any $m < n$, by
+Fact~\ref{fact:qfhier-basic}). We form these sets as particular
+\defterm{universal sets}, which are useful in their own right.
+
+\begin{defn}
+  Let $\mathcal{F}$ be a family of subsets of $\mathbb{N}^n$. A
+  \defterm{universal set} for $\mathcal{F}$ is a set $U_\mathcal{F}
+  \subseteq \mathbb{N}^{n+1}$ such that, for every $X \in
+  \mathcal{F}$, there is a number $\lgnum X \rgnum$ such that
+  $\tuple{a} \in X$ if and only if $(\lgnum X \rgnum, \tuple{a}) \in
+  U_\mathcal{F}$. That is, every set $X$ in the family has a
+  $U_\mathcal{F}$-code, $\lgnum X \rgnum$, and we can recover $X$ by
+  supplying $\lgnum X \rgnum$ as the first argument to
+  $U_\mathcal{F}$.
+\end{defn}
+
+It is clear that any countable family of sets (including each
+$\Sigma_n$, $\Pi_n$, and $\Delta_n$) has a universal set. The
+interesting question, however, is where such a universal set may lie
+in the arithmetical hierarchy.
+
+\begin{prop}\label{prop:univ-sign-not-pin}
+  For any $n$ and any $d \geq 1$, assume $U \subseteq
+  \mathbb{N}^{d+1}$ is a universal set for the family of $\Sigma_n$
+  subsets of $\mathbb{N}^d$. Then $U$ is not $\Pi_n$.
+\end{prop}
+\begin{proof}
+  The heart of this proof is a diagonal argument, similar to the one
+  Cantor gave to show there are uncountable many subsets of
+  $\mathbb{N}$ and similar to Russell's paradox (the ``set of all sets
+  that don't contain themselves''). For clarity, we only show the case
+  when $d = 1$. The proof for arbitrary $d \geq 1$ proceeds similarly.
+
+  Assume $U \subseteq \mathbb{N}^2$ is $\Pi_n$. Define $$X = \{e \in
+  \mathbb{N} \mid (e,e) \not\in U\}\text{.}$$ Since $U$ is $\Pi_n$,
+  its complement is $\Sigma_n$, and therefore $X$ is also
+  $\Sigma_n$. However, since $U$ is a universal set for $\Sigma_n$,
+  observe:
+  \begin{align*}
+    \lgnum X \rgnum \in X
+    &\iff (\lgnum X \rgnum, \lgnum X \rgnum) \not\in U \text{ (definition of } X \text{)} \\
+    &\iff \lgnum X \rgnum \not\in X \text{ (definition of } U \text{),}
+  \end{align*}
+  a contradiction.
+\end{proof}
+
+Though no universal set for $\Sigma_n$ can be $\Pi_n$, we will create
+such sets that are $\Sigma_n$ (for $n \geq 1$). These universal sets,
+then, provide our examples of $\Sigma_n$ sets that are not $\Pi_n$,
+and show that the arithmetical hierarchy does not
+collapse. Unfortunately, since $\Sigma_0 = \Pi_0$,
+Proposition~\ref{prop:univ-sign-not-pin} shows that no universal
+$\Sigma_0$ set can be $\Sigma_0$. We must instead settle for a
+$\Delta_1$ set, and we begin our study with that case.
+
+\begin{prop}
+  For any $d \geq 0$, there is a $\Delta_1$ set $U_{\Delta_0,d}
+  \subseteq \mathbb{N}^{d+1}$ which is universal for the $\Delta_0$
+  (i.e., primitive recursive) subsets of $\mathbb{N}^d$.
+\end{prop}
+\begin{proof}
+  Note that any primitive recursive set (or function) is build
+  inductively in some way via certain combinations following
+  Definition~\ref{defn:primrec}. It is possible to encode any such
+  construction in a single number. Given any number $e$ and any
+  $\tuple{a} \in \mathbb{N}^d$, it is purely mechanical to figure out
+  if $e$ encodes the construction of a primitive recursive function
+  and, if it does, follow that construction to evaluate the function
+  on $\tuple{a}$. Since, by Fact~\ref{fact:ct-thesis}, a $\Delta_1$
+  set is just one for which there is a mechanical process to decide
+  membership, we've build a $\Delta_1$ universal set for $\Delta_0$,
+  as required.
+\end{proof}
+
+\begin{prop}
+  For any $d \geq 0$ and $n \geq 1$, there is a $\Sigma_n$ set
+  $U_{\Sigma_n,d} \subseteq \mathbb{N}^{d+1}$ which is universal for
+  the $\Sigma_n$ subsets of $\mathbb{N}^d$, and a $\Pi_n$ set
+  $U_{\Pi_n,d} \subseteq \mathbb{N}^{d+1}$ which is universal for the
+  $\Pi_n$ subsets of $\mathbb{N}^d$.
+\end{prop}
+\begin{proof}
+  Proceed by induction on $n$ (with $d$ varying). For the base case,
+  set
+  \begin{align*}
+    U_{\Sigma_1,d}(e,\tuple{x}) &= \exists y : U_{\Delta_0,d+1}(e,\tuple{x},y) \\
+    U_{\Pi_1,d}(e,\tuple{x}) &= \forall y : U_{\Delta_0,d+1}(e,\tuple{x},y)
+    \text{.}
+  \end{align*}
+  Since $U_{\Delta_0,d+1}$ is $\Delta_1$, it is clear from the form of
+  the definitions that $U_{\Sigma_1,d}$ is $\Sigma_1$ and
+  $U_{\Pi_1,d}$ is $\Pi_1$. Furthermore, let $X \subseteq
+  \mathbb{N}^d$ be a $\Sigma_1$ set, i.e., defined by $\exists y :
+  R(\tuple{x},y)$ for $R$ primitive recursive. Set $\lgnum X \rgnum$,
+  the $U_{\Sigma_1,d}$ code for $X$, to be $\lgnum R \rgnum$, the
+  $U_{\Delta_0,d+1}$ code for $R$. Then
+  \begin{align*}
+    \tuple{x} \in X
+    &\iff \exists y : R(\tuple{x}, y) \\
+    &\iff \exists y : U_{\Delta_0,d+1}(\lgnum X \rgnum, \tuple{x}, y) \\
+    &\iff U_{\Sigma_1,d}(\lgnum X \rgnum, \tuple{x})
+    \text{,}
+  \end{align*}
+  So $U_{\Sigma_1,d}$ is a universal function as required. The
+  argument for $U_{\Pi_1,d}$ is identical.
+
+  For the inductive case, assume we already have suitable
+  $U_{\Sigma_n,d}$ and $U_{\Pi_n,d}$ for all $d$. Then, set
+  \begin{align*}
+    U_{\Sigma_{n+1},d}(e,\tuple{x}) &= \exists y : U_{\Pi_n,d+1}(e,\tuple{x},y) \\
+    U_{\Pi_{n+1},d}(e,\tuple{x}) &= \forall y : U_{\Sigma_n,d+1}(e,\tuple{x},y)
+    \text{.}
+  \end{align*}
+  By reasoning identical to that in the base case, these definitions
+  meet our requirements.
+\end{proof}
 
 \end{document}
