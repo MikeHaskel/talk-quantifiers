@@ -55,6 +55,17 @@
 
 \section{Introduction}
 
+These notes introduce some basic definitions from computability and
+model theory, and give brief examples of their use. They should be
+accessible to beginning graduate students in mathematics, even without
+any background specifically in mathematical logic. While model theory
+and computability have a common history, contemporary work in these
+fields is often quite unrelated. For the purpose of general coherence,
+these notes present a common approach in terms of quantifier
+complexity. While slightly contrived, this common framework is useful
+in that it enables a discussion of the relationship between the two
+fields.
+
 \section{Basic Framework and Notation}
 
 This section contains classical definitions that are most closely
@@ -736,6 +747,41 @@ $\Delta_1$ set, and we begin our study with that case.
   By reasoning identical to that in the base case, these definitions
   meet our requirements.
 \end{proof}
+
+\section{Reflection}
+
+The ideas presented in these notes form a starting point and very
+small taste of both model theory and computability.
+
+In model theory, quantifier elimination is one possible criterion for
+establishing that a theory is ``low-complexity'' in a meaningful and
+useful way. It is possible to weaken this criterion to cover more
+theories, such as by requiring all formulas be equivalent to a
+$\Sigma_1$ formula, say, instead of a $\Delta_0$ formula. The idea
+itself extends to the related \defterm{elimination of imaginaries}, a
+criterion that roughly states that all quotients by definable
+equivalence relations already exist as definable sets, just as
+quantifier elimination states that all definable sets already exists
+as sets definable without quantifiers. Other approaches in model
+theory include more combinatorial ways of capturing a lack of
+complexity, such as \defterm{stability}, \defterm{simplicity}, and
+\defterm{NIP}.
+
+In computability theory, a there is a natural extension of the
+arithematical hierarchy to a \defterm{hyperarithmetical} hierarchy,
+which allows a discussion of sets that are $\Sigma_\alpha$,
+$\Pi_\alpha$, and $\Delta_\alpha$ for certain infinite ordinals
+$\alpha$.  $\Pi_\alpha$. This approach, however, requires a departure
+from the framework of first-order formulas described in these
+notes. This hierarchy relates nicely to a certain notion of yet more
+expressive sets, the \defterm{analytical} sets. Alongside these
+hierarchies, there is another approach to classifying sets of natural
+numbers: Turing degrees. Studying these hierarchies and degrees
+requires a slew of new tools that go far beyond the diagonal argument
+used here.
+
+The author hopes that these notes serve to pique the reader's interest
+in mathematical logic and continue further study.
 
 \printbibliography
 
