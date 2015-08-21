@@ -4,3 +4,7 @@
 *.pdf
 *.fdb_latexmk
 *.fls
+*.bbl
+*.bcf
+*.blg
+*.run.xml

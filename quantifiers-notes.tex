@@ -1,6 +1,9 @@
 \documentclass{article}
 \usepackage{amsmath,amsthm,amssymb}
 \usepackage{hyperref}
+\usepackage{biblatex}
+
+\addbibresource{quantifiers.bib}
 
 \theoremstyle{plain}
 \newtheorem{thm}{Theorem}[section]
@@ -53,6 +56,10 @@
 \section{Introduction}
 
 \section{Basic Framework and Notation}
+
+This section contains classical definitions that are most closely
+associated with model theory. For a more in-depth treatment, see
+\cite{marker}.
 
 \subsection{Signatures, Structures, and Formulas}
 
@@ -275,8 +282,6 @@ useful dividing line.
 
 \section{Model Theory}
 
-\subsection{Quantifier Elimination and Ax-Grothendieck}
-
 Model theory, as a general rule, studies theories that are not too
 complicated. Its catalog of tools and techniques make use of
 situations where a theory is lacking some kind of complexity. An
@@ -284,6 +289,17 @@ example of such a lack of complexity if a definition is at some
 particular level of the quantifier depth hierarchy. In this section,
 we exploit such a situation to prove the classic Ax-Grothendieck
 Theorem.
+
+The results in this section are classical. David Marker exposits
+quantifier elimination, including quantifier elimination in
+algebraically closed fields, in \cite[Chapter~3]{marker}. He proves
+the Ax-Grothendieck Theorem (our Theorem~\ref{thm:ax-groth}) as
+\cite[Theorem~2.2.11]{marker}, though he takes a different, somewhat
+related approach using compactness rather than quantifier
+elimination. I don't know of a thorough written treatment of the
+quantifier elimination approach. I learned of it from Anand Pillay,
+who gives a very brief presentation of the idea in his online
+notes\cite[Corollaries 3.8 and 3.9]{anandnotes}.
 
 \begin{thm}[Ax-Grothendieck]\label{thm:ax-groth}
   Let $p : \mathbb{C}^n \to \mathbb{C}^n$ be an injective polynomial
@@ -420,6 +436,9 @@ its theory provide the right context for studying the extent to which
 certain sets and functions are computable by abstract mechanical
 processes. Quantifier depth is again important as the basis for the
 \defterm{arithmetical hierarchy}.
+
+Again, the results in this section are classical. Robert Soare
+presents these ideas in depth in \cite{soare}.
 
 Defining the true arithmetic structure, and even its signature, is
 more difficult than in the other examples discussed here. We first
@@ -717,5 +736,7 @@ $\Delta_1$ set, and we begin our study with that case.
   By reasoning identical to that in the base case, these definitions
   meet our requirements.
 \end{proof}
+
+\printbibliography
 
 \end{document}
