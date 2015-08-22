@@ -140,7 +140,7 @@ need a little more.
 
 \begin{example}
   Let $\phi(x)$ be $\exists y: x \cdot y = 1$, a
-  $\ringsig$-formula. If $\mathcal{M}$ is a ring and $a \in M$, the
+  $\ringsig$-formula. If $\mathcal{M}$ is a ring and $a \in M$, then
   $\mathcal{M} \models \phi(a)$ if and only if $a$ has a
   multiplicative inverse.
 \end{example}
@@ -201,7 +201,7 @@ By convention, theories are usually written $T$ instead of $\Rho$.
   The \defterm{theory of algebraically closed fields}, $\acf$, is the
   set of consequences of the sentences listed in
   Example~\ref{example:fieldthy}, together with an assertion, for each
-  $d > 1$, that every polynomial of degree $d$ has a root. For
+  $d > 1$, that every (monic) polynomial of degree $d$ has a root. For
   example, for $d = 2$, such a sentence might be $$\forall \tuple{a}:
   \exists x: x^2 + a_1x + a_0 = 0 \text{.}$$ Note that it is often
   convenient, as it is here, to use extensive shorthand when writing
@@ -225,18 +225,19 @@ of quantifiers they contain.
 
 \begin{defn}
   Let $\sigma$ be a signature, and let $\phi(\tuple{x})$ and
-  $\psi(\tuple{x})$ be $\sigma$-formulas in $\tuple{x}$, where
-  $\tuple{x}$ has length $n$. Say $\phi(\tuple{x})$ is
-  \defterm{absolutely equivalent} to $\psi(\tuple{x})$, and write
-  $\phi(\tuple{x}) \sim \psi(\tuple{x})$, if for all
-  $\sigma$-structures $\mathcal{M}$, $\phi^\mathcal{M} =
-  \psi^\mathcal{M}$.
+  $\psi(\tuple{x})$ be $\sigma$-formulas in $\tuple{x}$, in the same
+  variables $\tuple{x}$. Say $\phi(\tuple{x})$ is \defterm{absolutely
+    equivalent} to $\psi(\tuple{x})$, and write $\phi(\tuple{x}) \sim
+  \psi(\tuple{x})$, if for all $\sigma$-structures $\mathcal{M}$, they
+  define the same set (i.e., $\phi^\mathcal{M} = \psi^\mathcal{M}$).
 
   If $T$ is a $\sigma$-theory, say $\phi(\tuple{x})$ is
   \defterm{equivalent modulo $T$} to $\psi(\tuple{x})$, and write
   $\phi(\tuple{x}) \sim_T \psi(\tuple{x})$, if for all
   $\sigma$-structures $\mathcal{M}$ with $\mathcal{M} \models T$,
-  $\phi^\mathcal{M} = \psi^\mathcal{M}$.
+  $\phi^\mathcal{M} = \psi^\mathcal{M}$ (or, equivalently, if $T
+  \models \forall \tuple{x}: \phi(\tuple{x}) \leftrightarrow
+  \psi(\tuple{x})$).
 \end{defn}
 
 \begin{defn}\label{defn:quantifier-depth}
@@ -284,10 +285,6 @@ useful dividing line.
   \item A formula is $\Sigma_n$ if and only if its negation is
     $\Pi_n$. A formula is $\Delta_n$ if and only if its negation is
     $\Delta_n$.
-  \item Let $\phi(\tuple{x}, \tuple{y})$ be such that, in every
-    $\mathcal{M} \models T$, $\phi^\mathcal{M}$ is the graph of a
-    (total) function. Then $\phi(\tuple{x},\tuple{y})$ is $\Sigma_n$
-    (modulo $T$) if and only if it is $\Delta_n$ (modulo $T$).
   \end{enumerate}
 \end{fact}
 
@@ -296,7 +293,7 @@ useful dividing line.
 Model theory, as a general rule, studies theories that are not too
 complicated. Its catalog of tools and techniques make use of
 situations where a theory is lacking some kind of complexity. An
-example of such a lack of complexity if a definition is at some
+example of such a lack of complexity is if a definition sits at some
 particular level of the quantifier depth hierarchy. In this section,
 we exploit such a situation to prove the classic Ax-Grothendieck
 Theorem.
@@ -310,7 +307,7 @@ related approach using compactness rather than quantifier
 elimination. I don't know of a thorough written treatment of the
 quantifier elimination approach. I learned of it from Anand Pillay,
 who gives a very brief presentation of the idea in his online
-notes\cite[Corollaries 3.8 and 3.9]{anandnotes}.
+notes \cite[Corollaries 3.8 and 3.9]{anandnotes}.
 
 \begin{thm}[Ax-Grothendieck]\label{thm:ax-groth}
   Let $p : \mathbb{C}^n \to \mathbb{C}^n$ be an injective polynomial
@@ -461,22 +458,23 @@ need to understand the primitive recursive functions.
   these families is called \defterm{primitive recursive}. These
   families are by definition the smallest needed so that:
   \begin{itemize}
-  \item for all $n$ and $i \leq n$, $\left(\tuple{x} \mapsto x_i\right) \in \PR_n$;
+  \item for all $n$ and $i \leq n$, $\left(\tuple{x} \mapsto
+    x_i\right) \in \PR_n$ (projection);
   \item $\left(() \mapsto 0\right) \in \PR_0$ (this is a ``0-ary''
     function that takes an empty tuple as input and returns 0);
-  \item $\left(x \mapsto x + 1\right) \in \PR_1$;
+  \item $\left(x \mapsto x + 1\right) \in \PR_1$ (successor);
   \item for all $n$ and $m$, if $g \in \PR_n$, $f_1,\ldots,f_n \in
     \PR_m$, and $h : \mathbb{N}^m \to \mathbb{N}$ is defined
     by $$h(\tuple{x}) =
     g(f_1(\tuple{x}),\ldots,f_n(\tuple{x}))\text{,}$$ then $h \in
-    \PR_m$; and
+    \PR_m$ (composition); and
   \item for all $n$, if $z \in \PR_n$, $s \in \PR_{n+2}$, and $f :
     \mathbb{N}^{n+1} \to \mathbb{N}$ is defined by
     \begin{align*}
       f(0,\tuple{y}) &= z(\tuple{y}) \\
       f(x+1,\tuple{y}) &= s(x,f(x,\tuple{y}),\tuple{y}) \text{,}
     \end{align*}
-    then $f \in \PR_{n+1}$.
+    then $f \in \PR_{n+1}$ (primitive recursion).
   \end{itemize}
 
   A \defterm{primitive recursive set} is a subset of $\mathbb{N}^n$
@@ -510,7 +508,6 @@ however, that two formulas are equivalent modulo $\tathy$ if and only
 if they define the same set in $\TA$, since
 \begin{align*}
   \phi(\tuple{x}) \sim_{\tathy} \psi(\tuple{x})
-  &\iff \phi^\mathcal{M} = \psi^\mathcal{M} \text{ in all } \mathcal{M} \models \tathy \\
   &\iff \tathy \models \forall \tuple{x}: \phi(\tuple{x}) \leftrightarrow \psi(\tuple{x}) \\
   &\iff \TA \models \forall \tuple{x}: \phi(\tuple{x}) \leftrightarrow \psi(\tuple{x}) \\
   &\iff \phi^{\TA} = \psi^{\TA} \text{.}
@@ -533,8 +530,9 @@ cases.
   or to one of the form
   $$\forall y_1 \exists y_2 \forall y_3 \ldots R(\tuple{x},\tuple{y})\text{,}$$
   where in either case $R$ is a relation symbol (i.e., a primitive
-  recursive set). Furthermore, considering only formulas of this form
-  does not affect the $\Sigma_n$, $\Pi_n$, and $\Delta_n$ hierarchy.
+  recursive set). Furthermore, considering only formulas of these
+  forms do not affect the $\Sigma_n$, $\Pi_n$, and $\Delta_n$
+  hierarchy.
 \end{fact}
 
 Fact~\ref{fact:arith-simpler-normalform} provides two simplifications:
@@ -542,7 +540,8 @@ Fact~\ref{fact:arith-simpler-normalform} provides two simplifications:
 \item we need only consider quantifiers over a single variable, rather
   than tuples of variables, at any level of the hierarchy; and
 \item rather than consider arbitrary quantifier free formulas as a
-  base case, we need only consider a single primitive recursive set.
+  base case, we need only consider those expressed atomically as
+  primitive recursive sets.
 \end{enumerate}
 These simplifications are justified essentially by the expressivity of
 the primitive recursive sets themselves: they can decode multiple
@@ -629,7 +628,7 @@ computability.
 In algebraically closed fields, quantifier elimation means that all
 definable sets are in fact $\Delta_0$. In contrast, in the
 arithmetical hierarchy, we see new sets at every level (it does not
-``collapse''). In particular, for every $n \geq 0$, there is a set
+``collapse''). In particular, for every $n \geq 1$, there is a set
 that is $\Sigma_n$ but not $\Pi_n$ (and therefore not $\Sigma_m$,
 $\Pi_m$, or $\Delta_m$ for any $m < n$, by
 Fact~\ref{fact:qfhier-basic}). We form these sets as particular
@@ -659,7 +658,7 @@ in the arithmetical hierarchy.
 \end{prop}
 \begin{proof}
   The heart of this proof is a diagonal argument, similar to the one
-  Cantor gave to show there are uncountable many subsets of
+  Cantor gave to show there are uncountably many subsets of
   $\mathbb{N}$ and similar to Russell's paradox (the ``set of all sets
   that don't contain themselves''). For clarity, we only show the case
   when $d = 1$. The proof for arbitrary $d \geq 1$ proceeds similarly.
@@ -701,7 +700,7 @@ $\Delta_1$ set, and we begin our study with that case.
   and, if it does, follow that construction to evaluate the function
   on $\tuple{a}$. Since, by Fact~\ref{fact:ct-thesis}, a $\Delta_1$
   set is just one for which there is a mechanical process to decide
-  membership, we've build a $\Delta_1$ universal set for $\Delta_0$,
+  membership, we have built a $\Delta_1$ universal set for $\Delta_0$,
   as required.
 \end{proof}
 
@@ -730,7 +729,7 @@ $\Delta_1$ set, and we begin our study with that case.
   \begin{align*}
     \tuple{x} \in X
     &\iff \exists y : R(\tuple{x}, y) \\
-    &\iff \exists y : U_{\Delta_0,d+1}(\lgnum X \rgnum, \tuple{x}, y) \\
+    &\iff \exists y : U_{\Delta_0,d+1}(\lgnum R \rgnum, \tuple{x}, y) \\
     &\iff U_{\Sigma_1,d}(\lgnum X \rgnum, \tuple{x})
     \text{,}
   \end{align*}
@@ -767,18 +766,17 @@ theory include more combinatorial ways of capturing a lack of
 complexity, such as \defterm{stability}, \defterm{simplicity}, and
 \defterm{NIP}.
 
-In computability theory, a there is a natural extension of the
-arithematical hierarchy to a \defterm{hyperarithmetical} hierarchy,
-which allows a discussion of sets that are $\Sigma_\alpha$,
-$\Pi_\alpha$, and $\Delta_\alpha$ for certain infinite ordinals
-$\alpha$.  $\Pi_\alpha$. This approach, however, requires a departure
-from the framework of first-order formulas described in these
-notes. This hierarchy relates nicely to a certain notion of yet more
-expressive sets, the \defterm{analytical} sets. Alongside these
-hierarchies, there is another approach to classifying sets of natural
-numbers: Turing degrees. Studying these hierarchies and degrees
-requires a slew of new tools that go far beyond the diagonal argument
-used here.
+In computability, there is a natural extension of the arithematical
+hierarchy to a \defterm{hyperarithmetical} hierarchy, which allows a
+discussion of sets that are $\Sigma_\alpha$, $\Pi_\alpha$, and
+$\Delta_\alpha$ for certain infinite ordinals $\alpha$.
+$\Pi_\alpha$. This approach, however, requires a departure from the
+framework of first-order formulas described in these notes. This
+hierarchy relates nicely to a certain notion of yet more expressive
+sets, the \defterm{analytical} sets. Alongside these hierarchies,
+there is another approach to classifying sets of natural numbers:
+Turing degrees. Studying these hierarchies and degrees requires a slew
+of new tools that go far beyond the diagonal argument used here.
 
 The author hopes that these notes serve to pique the reader's interest
 in mathematical logic and continue further study.
